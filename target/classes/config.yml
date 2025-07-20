@@ -1,0 +1,26 @@
+SpeedStorm:
+  cooldown: 30
+  dragonEggFactor: 0.5
+  attackSpeed: 4.0
+  speedAmplifier: 3
+  duration: 12
+Dash:
+  cooldown: 10  # Cooldown in Sekunden
+Rewind:
+  cooldown: 20  # Cooldown in Sekunden
+BloodRush:
+  cooldown: 25
+Stun:
+  cooldown: 25
+  duration: 3   # in Sekunden
+Lightning:
+  cooldown: 30       # Sekunden
+  duration: 5        # Sekunden aktive Zeit
+  range: 10          # Radius um den Spieler
+Magma:
+  cooldown: 30     # Cooldown in Sekunden für Verdampfen
+  radius: 5        # Radius für Wasser-Verdunstung
+Healer:
+  cooldown: 45   # Cooldown in Sekunden
+  radius: 5      # Radius des Heilkreises
+  duration: 10   # Dauer der Heilung in Sekunden

@@ -1,0 +1,9 @@
+name: Custom_Abilitys
+version: 1.0
+main: damege_arow.custom_Abilitys.Custom_Abilitys
+api-version: 1.20
+commands:
+  giveability:
+    description: Gibt eine Fähigkeitsscroll
+  withdraw:
+    description: Entfernt deine Fähigkeit

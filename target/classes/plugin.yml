@@ -2,8 +2,22 @@ name: Custom_Abilitys
 version: 1.0
 main: damege_arow.custom_Abilitys.Custom_Abilitys
 api-version: 1.20
+
 commands:
   giveability:
     description: Gibt eine Fähigkeitsscroll
+    usage: /giveability <name>
+    permission: custom_abilitys.give
+    permission-message: §cDu hast keine Rechte, um diesen Befehl zu benutzen.
+
   withdraw:
-    description: Entfernt deine Fähigkeit
+    description: Entfernt deine Fähigkeit und gibt dir Scrolls
+    usage: /withdraw
+    permission: custom_abilitys.withdraw
+    permission-message: §cDu darfst diesen Befehl nicht verwenden.
+
+  test:
+    description: Testet eine Fähigkeit an dir selbst
+    usage: /test <ability>
+    permission: custom_abilitys.test
+    permission-message: §cNur Operatoren dürfen diesen Befehl verwenden.

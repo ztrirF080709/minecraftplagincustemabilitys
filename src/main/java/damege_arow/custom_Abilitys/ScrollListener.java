@@ -29,9 +29,7 @@ public class ScrollListener implements Listener {
         if (!meta.getPersistentDataContainer().has(key, PersistentDataType.STRING)) return;
 
         String abilityName = meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
-        Ability ability = Custom_Abilitys.getAbilities().stream()
-                .filter(a -> a.getName().equalsIgnoreCase(abilityName))
-                .findFirst().orElse(null);
+        Ability ability = Custom_Abilitys.getAbility(abilityName);
 
         if (ability == null) {
             player.sendMessage(ChatColor.RED + "Unbekannte Fähigkeit auf Scroll.");

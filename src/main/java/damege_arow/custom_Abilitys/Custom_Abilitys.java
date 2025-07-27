@@ -21,7 +21,7 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
 
     private static final Map<UUID, Ability[]> playerAbilities = new HashMap<>();
     private static final Map<UUID, Map<String, Long>> cooldowns = new HashMap<>();
-    private static final List<Ability> abilities = new ArrayList<>();
+    private static final Map<String, Ability> abilities = new HashMap<>();
     private static Custom_Abilitys instance;
 
     @Override
@@ -32,7 +32,10 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getCommand("giveability").setExecutor(this);
         getCommand("giveability").setTabCompleter(this);
         getCommand("withdraw").setExecutor(this);
+        getCommand("test").setExecutor(new TestCommand());
+        getCommand("test").setTabCompleter(new TestCommand());
 
+        // Fähigkeiten registrieren
         registerAbility(new SpeedStorm());
         registerAbility(new Dash());
         registerAbility(new Rewind());
@@ -43,17 +46,10 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Healer());
         registerAbility(new SoulSplit());
 
-
-
-
-
-
-
         getServer().getPluginManager().registerEvents(new ScrollListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);
         getServer().getPluginManager().registerEvents(new CombatLog(this), this);
-
 
         new BukkitRunnable() {
             @Override
@@ -66,15 +62,19 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
     }
 
     public void registerAbility(Ability ability) {
-        abilities.add(ability);
+        abilities.put(ability.getName(), ability);
+    }
+
+    public static Ability getAbility(String name) {
+        return abilities.get(name);
+    }
+
+    public static Set<String> getAbilityNames() {
+        return abilities.keySet();
     }
 
     public static Custom_Abilitys getInstance() {
         return instance;
-    }
-
-    public static List<Ability> getAbilities() {
-        return abilities;
     }
 
     public static Ability[] getAbilities(UUID uuid) {
@@ -101,13 +101,12 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getPlayerCooldowns(uuid).put(abilityName, System.currentTimeMillis() + millis);
     }
 
-    // ✅ Überarbeitete Scroll mit Glowing, Unbreakable, persistenter Fähigkeit
     public static ItemStack createScroll(String name) {
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.RED + "Scroll: " + name);
-        meta.addEnchant(Enchantment.UNBREAKING, 1, true); // Glowing durch Enchant
-        meta.setUnbreakable(true); // macht es feuer-/explosionssicher
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
+        meta.setUnbreakable(true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
 
         NamespacedKey key = new NamespacedKey(getInstance(), "scroll_ability");
@@ -152,9 +151,7 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
                 return true;
             }
             String name = args[0];
-            Ability ability = abilities.stream()
-                    .filter(a -> a.getName().equalsIgnoreCase(name))
-                    .findFirst().orElse(null);
+            Ability ability = getAbility(name);
             if (ability == null) {
                 player.sendMessage(ChatColor.RED + "Fähigkeit nicht gefunden.");
                 return true;
@@ -184,11 +181,11 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (command.getName().equalsIgnoreCase("giveability") && args.length == 1) {
-            List<String> completions = new ArrayList<>();
             String input = args[0].toLowerCase();
-            for (Ability ability : abilities) {
-                if (ability.getName().toLowerCase().startsWith(input)) {
-                    completions.add(ability.getName());
+            List<String> completions = new ArrayList<>();
+            for (String name : getAbilityNames()) {
+                if (name.toLowerCase().startsWith(input)) {
+                    completions.add(name);
                 }
             }
             return completions;

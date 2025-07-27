@@ -5,16 +5,16 @@ SpeedStorm:
   speedAmplifier: 3
   duration: 12
 Dash:
-  cooldown: 10  # Cooldown in Sekunden
+  cooldown: 5  # Cooldown in Sekunden
 Rewind:
   cooldown: 20  # Cooldown in Sekunden
 BloodRush:
-  cooldown: 25
+  cooldown: 50
 Stun:
-  cooldown: 25
+  cooldown: 35
   duration: 3   # in Sekunden
 Lightning:
-  cooldown: 30       # Sekunden
+  cooldown: 40       # Sekunden
   duration: 5        # Sekunden aktive Zeit
   range: 10          # Radius um den Spieler
 Magma:
@@ -24,3 +24,5 @@ Healer:
   cooldown: 45   # Cooldown in Sekunden
   radius: 5      # Radius des Heilkreises
   duration: 10   # Dauer der Heilung in Sekunden
+SoulSplit:
+  cooldown: 120

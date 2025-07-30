@@ -45,6 +45,8 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Magma());
         registerAbility(new Healer());
         registerAbility(new SoulSplit());
+        registerAbility(new Emerald());
+
 
         getServer().getPluginManager().registerEvents(new ScrollListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);

@@ -1,5 +1,5 @@
 SpeedStorm:
-  cooldown: 30
+  cooldown: 60
   dragonEggFactor: 0.5
   attackSpeed: 4.0
   speedAmplifier: 3
@@ -7,11 +7,11 @@ SpeedStorm:
 Dash:
   cooldown: 5  # Cooldown in Sekunden
 Rewind:
-  cooldown: 20  # Cooldown in Sekunden
+  cooldown: 30  # Cooldown in Sekunden
 BloodRush:
-  cooldown: 50
+  cooldown: 60
 Stun:
-  cooldown: 35
+  cooldown: 60
   duration: 3   # in Sekunden
 Lightning:
   cooldown: 40       # Sekunden
@@ -24,5 +24,11 @@ Healer:
   cooldown: 45   # Cooldown in Sekunden
   radius: 5      # Radius des Heilkreises
   duration: 10   # Dauer der Heilung in Sekunden
-SoulSplit:
-  cooldown: 120
+soulsplit:
+  duration: 5     # Dauer in Sekunden
+  cooldown: 120    # Cooldown in Sekunden
+emerald:
+  cooldown: 100          # Cooldown in Sekunden
+  debuff_duration: 5    # Dauer des Verfluchens (in Sekunden)
+  fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
+

@@ -2,22 +2,25 @@ package damege_arow.custom_Abilitys.abilities;
 
 import damege_arow.custom_Abilitys.Ability;
 import damege_arow.custom_Abilitys.Custom_Abilitys;
-import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.*;
 
 public class SoulSplit implements Ability, Listener {
 
-    private final Set<UUID> armed = new HashSet<>();
-    private final Map<UUID, ItemStack[]> storedInventory = new HashMap<>();
-    private final Map<UUID, ArmorStand> soulBodies = new HashMap<>();
+    private static final Set<UUID> activeSouls = new HashSet<>();
+    private final FileConfiguration config = Custom_Abilitys.getInstance().getConfig();
+
+    public SoulSplit() {
+        Bukkit.getPluginManager().registerEvents(this, Custom_Abilitys.getInstance());
+    }
 
     @Override
     public String getName() {
@@ -31,108 +34,68 @@ public class SoulSplit implements Ability, Listener {
 
     @Override
     public long getCooldown(Player player) {
-        int seconds = Custom_Abilitys.getInstance().getConfig().getInt("SoulSplit.cooldown", 60);
-        return player.getInventory().contains(Material.DRAGON_EGG) ? seconds * 500L : seconds * 1000L;
+        return config.getLong("soulsplit.cooldown", 30) * 1000L; // in Sekunden
     }
 
     @Override
     public void useAbility(Player player) {
-        if (Custom_Abilitys.isOnCooldown(player.getUniqueId(), getName())) {
+        UUID uuid = player.getUniqueId();
+
+        if (Custom_Abilitys.isOnCooldown(uuid, getName())) {
             player.sendMessage(ChatColor.RED + "Diese Fähigkeit ist noch im Cooldown!");
             return;
         }
 
-        armed.add(player.getUniqueId());
-        player.sendMessage(ChatColor.DARK_PURPLE + "§5Dein nächster Schlag wird §lSoulSplit§5 aktivieren!");
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_AMBIENT, 1f, 1f);
-        Custom_Abilitys.setCooldown(player.getUniqueId(), getName(), getCooldown(player));
-    }
+        // Wenn schon aktiv → zurückwechseln
+        if (activeSouls.contains(uuid)) {
+            player.setGameMode(GameMode.SURVIVAL);
+            activeSouls.remove(uuid);
+            player.sendMessage(ChatColor.GRAY + "§7Du bist in deinen Körper zurückgekehrt.");
+            return;
+        }
 
-    @EventHandler
-    public void onHit(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player damager)) return;
-        if (!(event.getEntity() instanceof Player target)) return;
-        if (!armed.contains(damager.getUniqueId())) return;
+        // Spectator aktivieren
+        activeSouls.add(uuid);
+        player.setGameMode(GameMode.SPECTATOR);
+        player.sendMessage(ChatColor.DARK_PURPLE + "§oDu hast deinen Körper verlassen...");
 
-        armed.remove(damager.getUniqueId());
+        Custom_Abilitys.setCooldown(uuid, getName(), getCooldown(player));
 
-        // Inventar sichern
-        ItemStack[] contents = target.getInventory().getContents();
-        storedInventory.put(target.getUniqueId(), contents);
-        target.getInventory().clear();
+        long durationTicks = config.getLong("soulsplit.duration", 5) * 20;
 
-        // Fake-Körper spawnen
-        Location loc = target.getLocation().clone();
-        ArmorStand fake = loc.getWorld().spawn(loc, ArmorStand.class);
-        fake.setVisible(false);
-        fake.setCustomName("§7" + target.getName() + "'s Körper");
-        fake.setCustomNameVisible(true);
-        fake.setGravity(false);
-        fake.setInvulnerable(true);
-        soulBodies.put(target.getUniqueId(), fake);
-
-        // Spieler als "Seele" — bleibt im Survival, aber kann fliegen
-        target.setGameMode(GameMode.SURVIVAL);
-        target.setAllowFlight(true);
-        target.setFlying(true);
-
-        // Rückstoß
-        target.setVelocity(target.getLocation().getDirection().multiply(-1.5).setY(0.5));
-
-        target.sendMessage(ChatColor.LIGHT_PURPLE + "§dDu hast deinen Körper verlassen. Kehre zurück, um dich zu vereinen.");
-
-        // Flug beibehalten
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!target.isOnline() || !soulBodies.containsKey(target.getUniqueId())) {
-                    cancel();
-                    return;
-                }
-
-                target.setAllowFlight(true);
-                target.setFlying(true);
+        Bukkit.getScheduler().runTaskLater(Custom_Abilitys.getInstance(), () -> {
+            if (activeSouls.contains(uuid)) {
+                player.setGameMode(GameMode.SURVIVAL);
+                player.sendMessage(ChatColor.GRAY + "§7SoulSplit ist vorbei.");
+                activeSouls.remove(uuid);
             }
-        }.runTaskTimer(Custom_Abilitys.getInstance(), 0L, 20L);
-
-        // Rückkehr-Check
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!target.isOnline() || !soulBodies.containsKey(target.getUniqueId())) {
-                    cancel();
-                    return;
-                }
-
-                if (target.getLocation().distanceSquared(fake.getLocation()) <= 2.25) {
-                    target.sendMessage(ChatColor.GREEN + "§aDu hast deinen Körper wieder betreten!");
-
-                    // Rückgabe
-                    target.setAllowFlight(false);
-                    target.setFlying(false);
-                    target.getInventory().setContents(storedInventory.get(target.getUniqueId()));
-                    storedInventory.remove(target.getUniqueId());
-
-                    // Fake entfernen
-                    fake.remove();
-                    soulBodies.remove(target.getUniqueId());
-
-                    cancel();
-                }
-            }
-        }.runTaskTimer(Custom_Abilitys.getInstance(), 0L, 10L);
+        }, durationTicks);
     }
 
     @Override
     public void onEquip(Player player) {
-        Bukkit.getPluginManager().registerEvents(this, Custom_Abilitys.getInstance());
+        // nichts
     }
 
     @Override
     public void onUnequip(Player player) {
-        armed.remove(player.getUniqueId());
-        soulBodies.remove(player.getUniqueId());
-        storedInventory.remove(player.getUniqueId());
-        EntityDamageByEntityEvent.getHandlerList().unregister(this);
+        UUID uuid = player.getUniqueId();
+        if (activeSouls.contains(uuid)) {
+            player.setGameMode(GameMode.SURVIVAL);
+            activeSouls.remove(uuid);
+        }
+    }
+
+    @EventHandler
+    public void onSpectatorTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+
+        if (player.getGameMode() == GameMode.SPECTATOR
+                && event.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE
+                && !player.isOp()) {
+
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "§cTeleportieren im SoulSplit-Modus ist blockiert.");
+        }
     }
 }

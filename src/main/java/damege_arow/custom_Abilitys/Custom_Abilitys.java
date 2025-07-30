@@ -34,6 +34,9 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getCommand("withdraw").setExecutor(this);
         getCommand("test").setExecutor(new TestCommand());
         getCommand("test").setTabCompleter(new TestCommand());
+        getCommand("a").setExecutor(new damege_arow.custom_Abilitys.commands.AbilityCommand());
+        getCommand("a").setTabCompleter(new damege_arow.custom_Abilitys.commands.AbilityCommand());
+
 
         // Fähigkeiten registrieren
         registerAbility(new SpeedStorm());
@@ -46,6 +49,8 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Healer());
         registerAbility(new SoulSplit());
         registerAbility(new Emerald());
+        registerAbility(new Invis());
+
 
 
         getServer().getPluginManager().registerEvents(new ScrollListener(), this);

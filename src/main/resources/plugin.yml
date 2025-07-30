@@ -1,7 +1,7 @@
 name: Custom_Abilitys
 version: 1.0
 main: damege_arow.custom_Abilitys.Custom_Abilitys
-api-version: 1.20
+api-version: 1.21.5
 
 commands:
   giveability:
@@ -21,3 +21,7 @@ commands:
     usage: /test <ability>
     permission: custom_abilitys.test
     permission-message: §cNur Operatoren dürfen diesen Befehl verwenden.
+
+  a:
+    description: Steuerung für Fähigkeiten
+    usage: /a <1|2|toggle|shift>

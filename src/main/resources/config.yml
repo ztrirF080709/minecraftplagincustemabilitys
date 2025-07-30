@@ -31,4 +31,8 @@ emerald:
   cooldown: 100          # Cooldown in Sekunden
   debuff_duration: 5    # Dauer des Verfluchens (in Sekunden)
   fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
+invis:
+  cooldown: 60        # Cooldown in Sekunden
+  duration: 20        # Dauer der Aktivierung (Sekunden)
+  blind_radius: 4     # Radius für Blindheit-Effekt
 

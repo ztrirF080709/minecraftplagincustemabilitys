@@ -5,7 +5,6 @@ damege_arow\custom_Abilitys\abilities\Rewind.class
 damege_arow\custom_Abilitys\abilities\Rewind$1.class
 damege_arow\custom_Abilitys\abilities\Lightning$1.class
 damege_arow\custom_Abilitys\abilities\Magma.class
-damege_arow\custom_Abilitys\commands\AbilityCommand.class
 damege_arow\custom_Abilitys\abilities\Stun$1.class
 damege_arow\custom_Abilitys\abilities\Invis.class
 damege_arow\custom_Abilitys\Custom_Abilitys$1.class
@@ -17,6 +16,7 @@ damege_arow\custom_Abilitys\Ability.class
 damege_arow\custom_Abilitys\ScrollListener.class
 damege_arow\custom_Abilitys\abilities\Magma$1.class
 damege_arow\custom_Abilitys\abilities\Healer.class
+damege_arow\custom_Abilitys\AbilityCommand.class
 damege_arow\custom_Abilitys\abilities\Dash.class
 damege_arow\custom_Abilitys\abilities\Healer$1.class
 damege_arow\custom_Abilitys\TestCommand.class

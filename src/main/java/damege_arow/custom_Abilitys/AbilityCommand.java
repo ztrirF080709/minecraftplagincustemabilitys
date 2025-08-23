@@ -1,4 +1,4 @@
-package damege_arow.custom_Abilitys.commands;
+package damege_arow.custom_Abilitys;
 
 import damege_arow.custom_Abilitys.Ability;
 import damege_arow.custom_Abilitys.Custom_Abilitys;
@@ -14,7 +14,6 @@ import java.util.*;
 
 public class AbilityCommand implements CommandExecutor, TabCompleter {
 
-    // Spieler, bei denen Shift/Maus deaktiviert ist
     public static final Set<UUID> abilityControlDisabled = new HashSet<>();
     private static final Map<UUID, Integer> selectedSlot = new HashMap<>();
 
@@ -31,11 +30,11 @@ public class AbilityCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        String sub = args[0].toLowerCase();
+        String input = args[0].toLowerCase();
         UUID uuid = player.getUniqueId();
         Ability[] equipped = Custom_Abilitys.getAbilities(uuid);
 
-        switch (sub) {
+        switch (input) {
             case "1" -> {
                 if (equipped.length > 0 && equipped[0] != null) {
                     equipped[0].useAbility(player);
@@ -43,9 +42,10 @@ public class AbilityCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(ChatColor.RED + "Keine erste Fähigkeit ausgerüstet.");
                 }
             }
+
             case "2" -> {
                 if (!player.getInventory().contains(Material.DRAGON_EGG)) {
-                    player.sendMessage(ChatColor.RED + "Du brauchst ein Drachenei im Inventar für eine zweite Fähigkeit.");
+                    player.sendMessage(ChatColor.RED + "Du brauchst ein Drachenei im Inventar für die zweite Fähigkeit.");
                     return true;
                 }
                 if (equipped.length > 1 && equipped[1] != null) {
@@ -54,27 +54,30 @@ public class AbilityCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(ChatColor.RED + "Keine zweite Fähigkeit ausgerüstet.");
                 }
             }
+
             case "toggle" -> {
                 if (abilityControlDisabled.contains(uuid)) {
                     abilityControlDisabled.remove(uuid);
-                    player.sendMessage(ChatColor.GREEN + "Shift+Rechtsklick/Maussteuerung aktiviert.");
+                    player.sendMessage(ChatColor.GREEN + "Shift-Steuerung wieder aktiviert.");
                 } else {
                     abilityControlDisabled.add(uuid);
-                    player.sendMessage(ChatColor.YELLOW + "Shift+Rechtsklick/Maussteuerung deaktiviert.");
+                    player.sendMessage(ChatColor.YELLOW + "Shift-Steuerung deaktiviert. Nutze nun nur /a 1 oder /a 2.");
                 }
             }
+
             case "shift" -> {
-                int max = (player.getInventory().contains(Material.DRAGON_EGG)) ? 2 : 1;
+                int max = player.getInventory().contains(Material.DRAGON_EGG) ? 2 : 1;
                 int current = selectedSlot.getOrDefault(uuid, 0);
                 int next = (current + 1) % max;
 
                 selectedSlot.put(uuid, next);
-                Ability chosen = Custom_Abilitys.getAbilities(uuid)[next];
-                player.sendMessage(ChatColor.GRAY + "Ausgewählte Fähigkeit: " +
+                Ability chosen = equipped[next];
+                player.sendMessage(ChatColor.GRAY + "Fähigkeit gewechselt zu: " +
                         (chosen != null ? chosen.getDisplayName() : ChatColor.RED + "keine"));
             }
+
             default -> {
-                player.sendMessage(ChatColor.RED + "Ungültiges Argument. Nutze: 1, 2, toggle, shift");
+                player.sendMessage(ChatColor.RED + "Ungültige Eingabe. Nutze: 1, 2, toggle, shift");
             }
         }
 
@@ -91,5 +94,9 @@ public class AbilityCommand implements CommandExecutor, TabCompleter {
 
     public static int getSelectedSlot(UUID uuid) {
         return selectedSlot.getOrDefault(uuid, 0);
+    }
+
+    public static Map<UUID, Integer> getSelectedSlotMap() {
+        return selectedSlot;
     }
 }

@@ -5,14 +5,29 @@ import damege_arow.custom_Abilitys.Custom_Abilitys;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class DomainExpansion implements Ability {
+public class DomainExpansion implements Ability, Listener {
 
+    private static final int RADIUS = 20;
+    private static final long COOLDOWN = 5 * 60 * 1000; // 5 Minuten
     private final Map<Location, Material> replacedBlocks = new HashMap<>();
+
+    private static final Set<Material> BLOCKS_TO_IGNORE = EnumSet.of(
+            Material.CHEST, Material.TRAPPED_CHEST, Material.BARREL,
+            Material.COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK,
+            Material.SPAWNER, Material.SHULKER_BOX,
+            Material.BEACON, Material.LECTERN, Material.JUKEBOX,
+            Material.ENCHANTING_TABLE, Material.ANVIL, Material.GRINDSTONE,
+            Material.HOPPER, Material.DROPPER, Material.DISPENSER
+    );
+
+    private boolean active = false;
 
     @Override
     public String getName() {
@@ -26,69 +41,73 @@ public class DomainExpansion implements Ability {
 
     @Override
     public long getCooldown(Player player) {
-        // Cooldown in Sekunden → umrechnen in Millisekunden
-        int seconds = Custom_Abilitys.getInstance().getConfig().getInt("domain.cooldown", 300);
-        return seconds * 1000L;
+        return COOLDOWN;
     }
 
     @Override
     public void useAbility(Player player) {
-        Plugin plugin = Custom_Abilitys.getInstance();
-        int radius = plugin.getConfig().getInt("domain.radius", 20);
-        int durationSeconds = plugin.getConfig().getInt("domain.duration", 20);
-        long durationTicks = durationSeconds * 20L;
+        UUID uuid = player.getUniqueId();
+        if (Custom_Abilitys.isOnCooldown(uuid, getName())) {
+            player.sendMessage(ChatColor.RED + "Diese Fähigkeit ist noch im Cooldown!");
+            return;
+        }
 
-        Location center = player.getLocation();
-        World world = center.getWorld();
-        if (world == null) return;
+        Location center = player.getLocation().getBlock().getLocation().add(0.5, 0.5, 0.5);
+        World world = player.getWorld();
 
-        Set<Location> changed = new HashSet<>();
+        active = true;
 
-        for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                for (int z = -radius; z <= radius; z++) {
-                    Location loc = center.clone().add(x, y, z);
-                    if (loc.distance(center) > radius) continue;
+        for (int x = -RADIUS; x <= RADIUS; x++) {
+            for (int y = -RADIUS; y <= RADIUS; y++) {
+                for (int z = -RADIUS; z <= RADIUS; z++) {
+                    double distance = Math.sqrt(x * x + y * y + z * z);
+                    if (Math.abs(distance - RADIUS) <= 0.5) {
+                        Location loc = center.clone().add(x, y, z);
+                        Block block = world.getBlockAt(loc);
 
-                    Block block = world.getBlockAt(loc);
-                    if (block.getType().isAir()) continue;
-                    if (block.getType() == Material.SCULK) continue;
+                        if (!block.getType().isAir()) continue;
+                        if (BLOCKS_TO_IGNORE.contains(block.getType())) continue;
 
-                    replacedBlocks.put(block.getLocation(), block.getType());
-                    block.setType(Material.SCULK);
-                    changed.add(block.getLocation());
+                        replacedBlocks.put(loc, block.getType());
+                        block.setType(Material.SCULK);
+                    }
                 }
             }
         }
 
-        player.sendMessage(ChatColor.DARK_PURPLE + "Domain Expansion entfesselt!");
-        player.playSound(center, Sound.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, 0.5f);
+        Custom_Abilitys.setCooldown(uuid, getName(), getCooldown(player));
+        player.sendMessage(ChatColor.DARK_PURPLE + "Domain Expansion aktiviert!");
 
-        // Rückverwandlung
         new BukkitRunnable() {
             @Override
             public void run() {
                 for (Map.Entry<Location, Material> entry : replacedBlocks.entrySet()) {
-                    Block block = entry.getKey().getBlock();
-                    if (block.getType() == Material.SCULK) {
-                        block.setType(entry.getValue());
-                    }
+                    entry.getKey().getBlock().setType(entry.getValue());
                 }
                 replacedBlocks.clear();
-                player.sendMessage(ChatColor.GRAY + "§7Die Domain verschwindet...");
+                active = false;
+                player.sendMessage(ChatColor.GRAY + "§7Domain Expansion ist beendet.");
             }
-        }.runTaskLater(plugin, durationTicks);
-
-        Custom_Abilitys.setCooldown(player.getUniqueId(), getName(), getCooldown(player));
+        }.runTaskLater(Custom_Abilitys.getInstance(), 20 * 20);
     }
 
     @Override
     public void onEquip(Player player) {
-        // Kein Effekt beim Ausrüsten
+        Bukkit.getPluginManager().registerEvents(this, Custom_Abilitys.getInstance());
     }
 
     @Override
-    public void onUnequip(Player player) {
-        // Kein Effekt beim Entfernen
+    public void onUnequip(Player player) {}
+
+    // Verhindert das Zerstören von Domain-Blöcken
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if (!active) return;
+
+        Location loc = event.getBlock().getLocation();
+        if (replacedBlocks.containsKey(loc)) {
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(ChatColor.RED + "§cDu kannst die Domain-Wände nicht zerstören!");
+        }
     }
 }

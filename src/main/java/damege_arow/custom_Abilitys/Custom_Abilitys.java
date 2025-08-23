@@ -54,6 +54,8 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Emerald());
         registerAbility(new Invis());
         registerAbility(new DomainExpansion());
+        registerAbility(new Immortaly());
+
 
 
 

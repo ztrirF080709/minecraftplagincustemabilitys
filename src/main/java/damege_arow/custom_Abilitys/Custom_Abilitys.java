@@ -63,6 +63,10 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);
         getServer().getPluginManager().registerEvents(new CombatLog(this), this);
+        getServer().getPluginManager().registerEvents(new ColityOfLive(), this);
+
+
+
 
         new BukkitRunnable() {
             @Override

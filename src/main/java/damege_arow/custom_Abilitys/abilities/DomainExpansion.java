@@ -99,7 +99,7 @@ public class DomainExpansion implements Ability, Listener {
     @Override
     public void onUnequip(Player player) {}
 
-    // Verhindert das Zerstören von Domain-Blöcken
+    // Verhindert das Zerstören von Domain-Blöcken und stellt sie sofort wieder her
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (!active) return;
@@ -108,6 +108,13 @@ public class DomainExpansion implements Ability, Listener {
         if (replacedBlocks.containsKey(loc)) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(ChatColor.RED + "§cDu kannst die Domain-Wände nicht zerstören!");
+            // Block sofort wiederherstellen
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    loc.getBlock().setType(Material.SCULK);
+                }
+            }.runTaskLater(Custom_Abilitys.getInstance(), 1);
         }
     }
 }

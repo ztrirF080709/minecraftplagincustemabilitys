@@ -25,3 +25,19 @@ commands:
   a:
     description: Steuerung für Fähigkeiten
     usage: /a <1|2|toggle|shift>
+
+  start:
+    description: Startet das Battle Royale
+    usage: /start
+
+  resetworld:
+    description: Setzt alle Welten zurück
+    usage: /resetworld
+
+  testdrop:
+    description: Spawnt einen Supply Drop zur Probe
+    usage: /testdrop
+
+  startborder:
+    description: Startet die Border-Schrumpfphase manuell
+    usage: /startborder

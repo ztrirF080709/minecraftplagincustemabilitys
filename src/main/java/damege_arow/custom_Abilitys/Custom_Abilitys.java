@@ -57,8 +57,12 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Immortaly());
 
 
-
-
+        BattleRoyaleManager manager = new BattleRoyaleManager(this);
+        getCommand("start").setExecutor(manager);
+        getCommand("resetworld").setExecutor(manager);
+        getCommand("testdrop").setExecutor(manager);
+        getCommand("startborder").setExecutor(manager);
+        getServer().getPluginManager().registerEvents(manager, this);
         getServer().getPluginManager().registerEvents(new ScrollListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);

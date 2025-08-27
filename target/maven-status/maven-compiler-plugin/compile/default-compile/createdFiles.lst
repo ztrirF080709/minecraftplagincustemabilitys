@@ -1,10 +1,10 @@
 damege_arow\custom_Abilitys\abilities\Emerald.class
+damege_arow\custom_Abilitys\BattleRoyaleManager$1.class
 damege_arow\custom_Abilitys\abilities\Lightning.class
 damege_arow\custom_Abilitys\abilities\BloodRush.class
 damege_arow\custom_Abilitys\abilities\Rewind.class
 damege_arow\custom_Abilitys\abilities\Rewind$1.class
 damege_arow\custom_Abilitys\abilities\Lightning$1.class
-damege_arow\custom_Abilitys\CrekingSword.class
 damege_arow\custom_Abilitys\abilities\Magma.class
 damege_arow\custom_Abilitys\abilities\DomainExpansion$1.class
 damege_arow\custom_Abilitys\abilities\Stun$1.class
@@ -18,6 +18,8 @@ damege_arow\custom_Abilitys\Ability.class
 damege_arow\custom_Abilitys\ScrollListener.class
 damege_arow\custom_Abilitys\abilities\Magma$1.class
 damege_arow\custom_Abilitys\abilities\Healer.class
+damege_arow\custom_Abilitys\BattleRoyaleManager.class
+damege_arow\custom_Abilitys\BattleRoyaleManager$2.class
 damege_arow\custom_Abilitys\abilities\Immortaly.class
 damege_arow\custom_Abilitys\AbilityCommand.class
 damege_arow\custom_Abilitys\abilities\Dash.class
@@ -25,6 +27,7 @@ damege_arow\custom_Abilitys\abilities\Healer$1.class
 damege_arow\custom_Abilitys\ColityOfLive.class
 damege_arow\custom_Abilitys\TestCommand.class
 damege_arow\custom_Abilitys\ColityOfLive$1.class
+damege_arow\custom_Abilitys\BattleRoyaleManager$3.class
 damege_arow\custom_Abilitys\abilities\SoulSplit.class
 damege_arow\custom_Abilitys\Custom_Abilitys.class
 damege_arow\custom_Abilitys\CombatLog.class

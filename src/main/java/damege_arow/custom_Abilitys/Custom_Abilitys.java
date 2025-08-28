@@ -1,3 +1,4 @@
+// Datei: Custom_Abilitys.java (vollständig aktualisiert)
 package damege_arow.custom_Abilitys;
 
 import damege_arow.custom_Abilitys.abilities.*;
@@ -34,12 +35,8 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getCommand("withdraw").setExecutor(this);
         getCommand("test").setExecutor(new TestCommand());
         getCommand("test").setTabCompleter(new TestCommand());
-        getCommand("a").setExecutor(new damege_arow.custom_Abilitys.AbilityCommand());
-        getCommand("a").setTabCompleter(new damege_arow.custom_Abilitys.AbilityCommand());
         getCommand("a").setExecutor(new AbilityCommand());
         getCommand("a").setTabCompleter(new AbilityCommand());
-
-
 
         // Fähigkeiten registrieren
         registerAbility(new SpeedStorm());
@@ -56,7 +53,6 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new DomainExpansion());
         registerAbility(new Immortaly());
 
-
         BattleRoyaleManager manager = new BattleRoyaleManager(this);
         getCommand("start").setExecutor(manager);
         getCommand("resetworld").setExecutor(manager);
@@ -68,9 +64,6 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);
         getServer().getPluginManager().registerEvents(new CombatLog(this), this);
         getServer().getPluginManager().registerEvents(new ColityOfLive(), this);
-
-
-
 
         new BukkitRunnable() {
             @Override
@@ -160,6 +153,10 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         } else {
             player.sendActionBar(sb.toString().trim());
         }
+    }
+
+    public static List<Ability> getAllAbilities() {
+        return new ArrayList<>(abilities.values());
     }
 
     @Override

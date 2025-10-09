@@ -52,6 +52,11 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Invis());
         registerAbility(new DomainExpansion());
         registerAbility(new Immortaly());
+        registerAbility(new ParasitAbility());
+        registerAbility(new GhostCloak());
+        registerAbility(new GhostStrike());
+
+
 
         BattleRoyaleManager manager = new BattleRoyaleManager(this);
         getCommand("start").setExecutor(manager);

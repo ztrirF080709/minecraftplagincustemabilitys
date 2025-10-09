@@ -47,28 +47,13 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         registerAbility(new Lightning());
         registerAbility(new Magma());
         registerAbility(new Healer());
-        registerAbility(new SoulSplit());
         registerAbility(new Emerald());
-        registerAbility(new Invis());
-        registerAbility(new DomainExpansion());
         registerAbility(new Immortaly());
-        registerAbility(new ParasitAbility());
-        registerAbility(new GhostCloak());
-        registerAbility(new GhostStrike());
 
 
 
-        BattleRoyaleManager manager = new BattleRoyaleManager(this);
-        getCommand("start").setExecutor(manager);
-        getCommand("resetworld").setExecutor(manager);
-        getCommand("testdrop").setExecutor(manager);
-        getCommand("startborder").setExecutor(manager);
-        getServer().getPluginManager().registerEvents(manager, this);
-        getServer().getPluginManager().registerEvents(new ScrollListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
-        getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);
-        getServer().getPluginManager().registerEvents(new CombatLog(this), this);
-        getServer().getPluginManager().registerEvents(new ColityOfLive(), this);
+
+
 
         new BukkitRunnable() {
             @Override

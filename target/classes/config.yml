@@ -24,29 +24,10 @@ Healer:
   cooldown: 45   # Cooldown in Sekunden
   radius: 5      # Radius des Heilkreises
   duration: 10   # Dauer der Heilung in Sekunden
-soulsplit:
-  duration: 5     # Dauer in Sekunden
-  cooldown: 120    # Cooldown in Sekunden
 emerald:
   cooldown: 100          # Cooldown in Sekunden
   debuff_duration: 5    # Dauer des Verfluchens (in Sekunden)
   fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
-invis:
-  cooldown: 60        # Cooldown in Sekunden
-  duration: 20        # Dauer der Aktivierung (Sekunden)
-  blind_radius: 4     # Radius für Blindheit-Effekt
-domain:
-  cooldown: 300   # in Sekunden
-  radius: 20
-  duration: 20    # in Sekunden
-supply-drops:
-  interval-seconds: 300 # alle 5 Minuten
-  radius: 500 # maximaler Abstand von Spawnpunkt
-supply-drops:
-  - "DIAMOND;1-10;0.8"
-  - "NETHERITE_INGOT;1-2;0.3"
-  - "GOLDEN_APPLE;1-3;0.6"
-  - "netherite_upgrade_smithing_template;1-3;0.3"
-  - "nether_wart;1-5;0.5"
-  - "blaze_rod;1-3;0.3"
-farm-phase-duration-minutes: 30
+daggers:
+  cooldown: 30 # Sekunden
+  damage: 2.5  # True Damage pro Dolch

@@ -30,4 +30,3 @@ emerald:
   fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
 daggers:
   cooldown: 30 # Sekunden
-  damage: 2.5  # True Damage pro Dolch

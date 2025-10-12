@@ -53,6 +53,11 @@ public class Custom_Abilitys extends JavaPlugin implements TabExecutor {
         AbilityRecipes.registerAll(this);
 
 
+        getServer().getPluginManager().registerEvents(new ScrollListener(), this);
+        getServer().getPluginManager().registerEvents(new AbilityUseListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
+
+
 
 
 

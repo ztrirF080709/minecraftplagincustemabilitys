@@ -3,11 +3,13 @@ C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Emerald.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Healer.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Immortaly.java
+C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\InfernalSlash.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Lightning.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Magma.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Rewind.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\SpeedStorm.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\Stun.java
+C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\abilities\WardenSUS.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\Ability.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\AbilityCommand.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\AbilityRecipes.java
@@ -17,3 +19,4 @@ C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\PlayerDeathListener.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\ScrollListener.java
 C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\TestCommand.java
+C:\Users\fritz\OneDrive\Desktop\custom_Abilitys\src\main\java\damege_arow\custom_Abilitys\util\AbilityUtils.java

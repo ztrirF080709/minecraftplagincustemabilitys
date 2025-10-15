@@ -28,3 +28,5 @@ emerald:
   cooldown: 100          # Cooldown in Sekunden
   debuff_duration: 5    # Dauer des Verfluchens (in Sekunden)
   fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
+infernal_slash:
+  cooldown: 20

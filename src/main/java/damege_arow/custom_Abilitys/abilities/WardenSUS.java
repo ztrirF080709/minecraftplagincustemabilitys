@@ -3,6 +3,7 @@ package damege_arow.custom_Abilitys.abilities;
 import damege_arow.custom_Abilitys.Ability;
 import damege_arow.custom_Abilitys.Custom_Abilitys;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.bukkit.scheduler.BukkitRunnable;

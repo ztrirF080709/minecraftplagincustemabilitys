@@ -2,6 +2,7 @@ damege_arow\custom_Abilitys\abilities\Emerald.class
 damege_arow\custom_Abilitys\abilities\Lightning.class
 damege_arow\custom_Abilitys\abilities\BloodRush.class
 damege_arow\custom_Abilitys\abilities\Rewind.class
+damege_arow\custom_Abilitys\abilities\RapidTripleBowAbility.class
 damege_arow\custom_Abilitys\abilities\Rewind$1.class
 damege_arow\custom_Abilitys\AbilityRecipes.class
 damege_arow\custom_Abilitys\abilities\InfernalSlash$2.class
@@ -9,6 +10,7 @@ damege_arow\custom_Abilitys\abilities\WardenSUS$1.class
 damege_arow\custom_Abilitys\abilities\Lightning$1.class
 damege_arow\custom_Abilitys\abilities\Magma.class
 damege_arow\custom_Abilitys\util\AbilityUtils.class
+damege_arow\custom_Abilitys\abilities\RapidTripleBowAbility$1.class
 damege_arow\custom_Abilitys\abilities\Stun$1.class
 damege_arow\custom_Abilitys\Custom_Abilitys$1.class
 damege_arow\custom_Abilitys\AbilityUseListener.class

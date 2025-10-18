@@ -30,3 +30,8 @@ emerald:
   fail_chance: 0.3      # 30% Chance dass Items fehlschlagen
 infernal_slash:
   cooldown: 20
+RapidTripleBowAbility:
+  cooldown: 120
+
+
+

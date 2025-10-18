@@ -2,6 +2,7 @@ package damege_arow.custom_Abilitys.abilities;
 
 import damege_arow.custom_Abilitys.Ability;
 import damege_arow.custom_Abilitys.Custom_Abilitys;
+import damege_arow.custom_Abilitys.util.AbilityUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -21,6 +22,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Rapid Triple Bow — 3 Pfeile pro Schuss + explosive Spezialattacke.
+ * Nutzt das Cooldown-System aus AbilityUtils/Custom_Abilitys.
+ */
 public class RapidTripleBowAbility implements Ability, Listener {
 
     private final Plugin plugin = Custom_Abilitys.getInstance();
@@ -43,11 +48,23 @@ public class RapidTripleBowAbility implements Ability, Listener {
 
     @Override
     public void useAbility(Player player) {
+        // Prüfen, ob Cooldown aktiv ist
+        if (!AbilityUtils.isAbilityReady(player, getName())) {
+            long remaining = AbilityUtils.getCooldownRemaining(player, getName());
+            player.sendMessage(ChatColor.RED + "Diese Fähigkeit ist noch " + remaining + "s auf Abklingzeit!");
+            return;
+        }
+
+        // Explosiver Schuss aktivieren
         explosiveNextShot.add(player.getUniqueId());
-        player.sendMessage(ChatColor.RED + "Dein nächster Schuss wird EXPLOSIV!");
+        player.sendMessage(ChatColor.RED + "⚡ Dein nächster Schuss wird EXPLOSIV!");
         player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1f, 1f);
 
-        // Entfernt nach 10 Sekunden, falls nicht geschossen wurde
+        // Cooldown setzen
+        long seconds = plugin.getConfig().getLong("rapid_triple_bow.cooldown", 30L);
+        AbilityUtils.setCooldownSeconds(player, getName(), seconds);
+
+        // Entfernt Markierung nach 10 Sekunden, falls nicht geschossen wurde
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -97,13 +114,14 @@ public class RapidTripleBowAbility implements Ability, Listener {
             // Verzauberungen übernehmen
             applyBowEnchantments(arrow, bow);
 
-            // Explosionspfeil
+            // Explosiver Pfeil
             if (i == 0 && explosiveNextShot.contains(player.getUniqueId())) {
                 arrow.setCustomName("ExplosiveArrow");
                 arrow.setCustomNameVisible(false);
             }
         }
 
+        // Explosiv-Schuss verbraucht
         explosiveNextShot.remove(player.getUniqueId());
         player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1f, 1f);
     }
